@@ -309,13 +309,17 @@ FROM mcr.microsoft.com/cbl-mariner/base/core:2.0.20230630 AS runtime
 
 RUN echo "== Install Core/UI Runtime Dependencies ==" && \
     tdnf    install -y \
+            awk \
             cairo \
             chrony \
             dbus \
             dbus-glib \
             dhcp-client \
+            diffutils \
             e2fsprogs \
             freefont \
+            gcc \
+            kmod \
             libinput \
             libjpeg-turbo \
             libltdl \
@@ -330,12 +334,17 @@ RUN echo "== Install Core/UI Runtime Dependencies ==" && \
             libxkbcommon \
             libXrandr \
             iproute \
+            make \
+            mariner-release \
             nftables \
             pango \
             procps-ng \
             rpm \
+            rsync \
             sed \
+            sudo \
             tzdata \
+            vim \
             wayland-protocols-devel \
             xcursor-themes \
             xorg-x11-server-Xwayland \
@@ -371,10 +380,14 @@ RUN useradd -u 1000 --create-home wslg && \
     mkdir /home/wslg/.config && \
     chown wslg /home/wslg/.config
 
+# Add wslg to sudoers
+RUN echo 'wslg ALL=(ALL:ALL) NOPASSWD: ALL' > /etc/sudoers.d/wslg
+
 # Copy config files.
 COPY config/wsl.conf /etc/wsl.conf
 COPY config/weston.ini /home/wslg/.config/weston.ini
 COPY config/local.conf /etc/fonts/local.conf
+COPY config/load-modules.sh /etc/profile.d/load-modules.sh
 
 # Copy default icon file.
 COPY resources/linux.png /usr/share/icons/wsl/linux.png
