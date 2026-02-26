@@ -314,6 +314,7 @@ FROM mcr.microsoft.com/azurelinux/base/core:3.0 AS runtime
 
 RUN echo "== Install Core/UI Runtime Dependencies ==" && \
     tdnf    install -y \
+            btrfs-progs \
             busybox \
             ca-certificates \
             cairo \
@@ -357,6 +358,7 @@ RUN echo "== Install Core/UI Runtime Dependencies ==" && \
             tzdata \
             util-linux \
             xcursor-themes \
+            xfsprogs \
             xorg-x11-server-Xwayland \
             xorg-x11-server-utils
 
